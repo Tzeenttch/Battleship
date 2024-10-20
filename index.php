@@ -1,14 +1,14 @@
 <?php
+session_start();
 
 if (isset($_POST['reiniciar'])) { //Boton de reinicio
     session_destroy();
     header("Location: index.php");
 }
 
-session_start();
 //Incluimos las variables globales
-include_once('globalVars.php');
-include_once('funcionalidad.php');
+include_once('app/globalVars.php');
+include_once('app/funcionalidad.php');
 //TODO: Sustituir A por el resultado de la funcionde generar barcos
 
 
@@ -82,4 +82,4 @@ if ($cantidadX >= $maX) {
     session_destroy();
 }
 
-include_once('templateJuego.php');
+include_once('templates/templateJuego.php');

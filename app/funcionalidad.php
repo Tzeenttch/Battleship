@@ -104,11 +104,14 @@ function llenarTablero($flota)
 
 function coordenadaAtacada($letras, $numeros1, $posicionesAtacadas)
 {
+    if (isset($_SESSION['posicionAtacada']) && !empty($_SESSION['posicionAtacada'])) {
+
     foreach ($posicionesAtacadas as $posicion) {
         if ($posicion[0] === $letras && $posicion[1] == $numeros1) {
             return true;
         }
     }
+}
     return false;
 }
 
@@ -132,18 +135,22 @@ function pintarTablero($letrasCoord, $numerosCoord, $ubicaciones)
         foreach ($letrasCoord as $letras) {
 
             $buque = $ubicaciones[$letras][$numeros1];
-            
-            $posicionesAtacadas =  $_SESSION['posicionAtacada'];
+            if (isset($_SESSION['posicionAtacada']) && !empty($_SESSION['posicionAtacada'])) {
 
-            if (coordenadaAtacada($letras, $numeros1, $posicionesAtacadas)) { 
-                if (is_null($buque)) {
+                $posicionesAtacadas =  $_SESSION['posicionAtacada'];
 
-                    $output .= '<td>' . "*" . '</td>'; //display:none para ocultar los datos, el 0 es donde van los datos a guardar(barcos y agua); "style="display:none;"
+                if (coordenadaAtacada($letras, $numeros1, $posicionesAtacadas)) {
+                    if (is_null($buque)) {
+
+                        $output .= '<td>' . "*" . '</td>'; //display:none para ocultar los datos, el 0 es donde van los datos a guardar(barcos y agua); "style="display:none;"
+                    } else {
+                        $output .= '<td>' . $buque . '</td>'; //display:none para ocultar los datos, el 0 es donde van los datos a guardar(barcos y agua); "style="display:none;"
+                    }
                 } else {
-                    $output .= '<td>' . $buque . '</td>'; //display:none para ocultar los datos, el 0 es donde van los datos a guardar(barcos y agua); "style="display:none;"
+                    $output .= '<td style="visibility:hidden;">' . "*" . '</td>'; // visibility:hidden para mostrar en oculto los datos
                 }
-            } else {
-                $output .= '<td style="visibility:hidden;">' . "*" . '</td>'; // visibility:hidden para mostrar en oculto los datos
+            }else{
+                $output .= '<td style="visibility:hidden;">' . "*" . '</td>'; 
             }
         }
         $output .= '</tr>';
